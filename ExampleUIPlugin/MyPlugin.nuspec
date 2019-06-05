@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>MyPlugin</id>
+        <version>0.0.2</version>
+        <authors>Me</authors>
+        <description>My RDMP Plugin</description>
+        <dependencies>
+            <dependency id="HIC.RDMP.Plugin" version="3.0" />
+        </dependencies>
+    </metadata>
+    <files>
+    <file src="MyPlugin\bin\Debug\net461\*" target="lib\net461" />	
+    </files>
+</package>
