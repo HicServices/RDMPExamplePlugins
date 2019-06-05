@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace MyPipelinePlugin
 {
-    class BasicDataTableAnonymiser1 : IPluginDataFlowComponent<DataTable>
+    public class BasicDataTableAnonymiser1 : IPluginDataFlowComponent<DataTable>
     {
         public void Abort(IDataLoadEventListener listener)
         {
@@ -51,7 +51,7 @@ namespace MyPipelinePlugin
 
         string[] CommonNames = new string[]
         { 
-            "Dave","Frank","Bob","Pete","Daisy","Marley","Lucy","Tabitha"
+            "Dave","Frank","Bob","Pete","Daisy","Marley","Lucy","Tabitha","Thomas","Wallace"
         };
 
     }
