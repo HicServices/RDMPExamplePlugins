@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>2d09fc4a-3a82-4181-a3d2-cd0e2f4a7f01</ProjectGuid>
+    <RootNamespace>netcoreapp2._2</RootNamespace>
+    <AssemblyName>netcoreapp2._2</AssemblyName>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyTitle>netcoreapp2.2</AssemblyTitle>
+    <Product>netcoreapp2.2</Product>
+    <Copyright>Copyright ©  2019</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.*" />
+    <PackageReference Include="System.Net.Http" Version="4.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyPipelinePlugin\MyPipelinePlugin.csproj" />
+  </ItemGroup>
+</Project>
