@@ -1,9 +1,9 @@
 ﻿using Rdmp.Core.Curation.Data;
 using Rdmp.UI.CommandExecution.AtomicCommands;
 using Rdmp.UI.ItemActivation;
-using ReusableLibraryCode.CommandExecution.AtomicCommands;
 using ReusableLibraryCode.Icons.IconProvision;
 using System.Drawing;
+using Rdmp.Core.CommandExecution.AtomicCommands;
 
 namespace MyPlugin
 {
@@ -19,7 +19,7 @@ namespace MyPlugin
                 SetImpossible("Catalogue is already called Bunny");
         }
 
-        public Image GetImage(IIconProvider iconProvider)
+        public override Image GetImage(IIconProvider iconProvider)
         {
 		    //icon to use for the right click menu (return null if you don't want one)
             return Resources.Bunny;

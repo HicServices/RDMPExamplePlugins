@@ -3,6 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HIC.RDMP.Plugin" Version="3.0.13-rc" />
+    <PackageReference Include="HIC.RDMP.Plugin" Version="4.0.1" />
   </ItemGroup>
 </Project>

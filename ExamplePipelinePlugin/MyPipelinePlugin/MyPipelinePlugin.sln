@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "net461", "Plugin\net461\net
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreapp2.2", "Plugin\netcoreapp2.2\netcoreapp2.2.csproj", "{2D09FC4A-3A82-4181-A3D2-CD0E2F4A7F01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPipelinePluginTests", "MyPipelinePluginTests\MyPipelinePluginTests.csproj", "{7BE76936-4204-43A8-9A9F-EE9E5E28BD18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPipelinePluginTests", "MyPipelinePluginTests\MyPipelinePluginTests.csproj", "{7BE76936-4204-43A8-9A9F-EE9E5E28BD18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{AADDFE40-1F65-4B5C-8981-D4F9F1DAAEDB}"
+	ProjectSection(SolutionItems) = preProject
+		MyPipelinePlugin.nuspec = MyPipelinePlugin.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
