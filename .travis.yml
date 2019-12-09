@@ -1,5 +1,5 @@
 language: csharp
-mono: none
+mono: latest
 dotnet: 2.2.100
 
 addons:
@@ -27,3 +27,4 @@ script:
 
 script:
 - dotnet test ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePluginTests/MyPipelinePluginTests.csproj
+- msbuild /p:Configuration=Release ./ExampleUIPlugin/MyPlugin.sln

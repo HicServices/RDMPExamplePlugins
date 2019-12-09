@@ -15,6 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPipelinePluginTests", "My
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{AADDFE40-1F65-4B5C-8981-D4F9F1DAAEDB}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\.travis.yml = ..\..\.travis.yml
 		MyPipelinePlugin.nuspec = MyPipelinePlugin.nuspec
 	EndProjectSection
 EndProject
