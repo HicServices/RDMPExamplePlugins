@@ -6,3 +6,9 @@ update_configs:
     target_branch: "develop"
     default_reviewers:
     - tznind
+  - package_manager: "dotnet:nuget"
+    directory: "/ExampleUIPlugin/"
+    update_schedule: "live"
+    target_branch: "develop"
+    default_reviewers:
+    - tznind
