@@ -7,6 +7,7 @@
     <AssemblyTitle>netcoreapp2.2</AssemblyTitle>
     <Product>netcoreapp2.2</Product>
     <Copyright>Copyright ©  2019</Copyright>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.*" />

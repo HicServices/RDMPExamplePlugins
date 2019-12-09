@@ -29,9 +29,11 @@ script:
 - dotnet test ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePluginTests/MyPipelinePluginTests.csproj
 - nuget restore ./ExampleUIPlugin/MyPlugin.sln
 - msbuild /p:Configuration=Debug ./ExampleUIPlugin/MyPlugin.sln
+- nuget restore ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.sln
+- msbuild /p:Configuration=Debug ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.sln
 - nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
 - nuget pack ./ExampleUIPlugin/MyPlugin.nuspec
-- cd rdmp-cli
+- cd ./rdmp-cli
 - ./rdmp pack --file ../MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
 - ./rdmp pack --file ../MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
 
