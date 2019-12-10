@@ -17,22 +17,27 @@ before_script:
 - sudo docker run --name=mssql-server-linux-latest -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433 -d microsoft/mssql-server-linux:2017-latest
 
 script:
-- dotnet build ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.sln
-- wget https://github.com/HicServices/RDMP/releases/download/v3.2.1/rdmp-cli-linux-x64.zip
+- dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
+- dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
+
+- wget https://github.com/HicServices/RDMP/releases/download/v4.0.1/rdmp-cli-linux-x64.zip
 - unzip -d rdmp-cli rdmp-cli-linux-x64.zip || true # Ignore exit code since unzip returns 1 for a warning we don't care about
-- cd rdmp-cli
+- cd ./rdmp-cli
 - chmod +x rdmp
 - ./rdmp install localhost TEST_ -u sa -p 'YourStrong!Passw0rd'
 - cd ..
 
-script:
 - dotnet test ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePluginTests/MyPipelinePluginTests.csproj
+
 - nuget restore ./ExampleUIPlugin/MyPlugin.sln
 - msbuild /p:Configuration=Debug ./ExampleUIPlugin/MyPlugin.sln
-- nuget restore ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.sln
-- msbuild /p:Configuration=Debug ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.sln
+
+- nuget restore ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
+- msbuild /p:Configuration=Debug ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
+
 - nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
 - nuget pack ./ExampleUIPlugin/MyPlugin.nuspec
+
 - cd ./rdmp-cli
 - ./rdmp pack --file ../MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
 - ./rdmp pack --file ../MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
