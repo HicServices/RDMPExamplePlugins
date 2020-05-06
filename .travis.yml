@@ -20,7 +20,7 @@ script:
 - dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
 - dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
 
-- wget https://github.com/HicServices/RDMP/releases/download/v4.0.1/rdmp-cli-linux-x64.zip
+- wget https://github.com/HicServices/RDMP/releases/download/v4.1.0/rdmp-cli-linux-x64.zip
 - unzip -d rdmp-cli rdmp-cli-linux-x64.zip || true # Ignore exit code since unzip returns 1 for a warning we don't care about
 - cd ./rdmp-cli
 - chmod +x rdmp
