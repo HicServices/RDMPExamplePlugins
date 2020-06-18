@@ -6,7 +6,7 @@
         <authors>Me</authors>
         <description>My RDMP Plugin</description>
         <dependencies>
-            <dependency id="HIC.RDMP.Plugin" version="4.0" />
+            <dependency id="HIC.RDMP.Plugin" version="4.1" />
         </dependencies>
     </metadata>
     <files>
