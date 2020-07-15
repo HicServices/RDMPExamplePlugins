@@ -1,31 +1,53 @@
-language: csharp
-mono: latest
-dotnet: 2.2.100
+language: generic
+
+cache:
+  directories:
+      - $HOME/.nuget
+      - $HOME/rdmp-cli
 
 addons:
   postgresql: "10"
   apt:
+    sources:
+    - sourceline: 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main'
+      key_url: 'https://download.mono-project.com/repo/xamarin_ring.gpg'
+    - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/ubuntu/18.04/prod bionic main'
+      key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+    - sourceline: 'deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/ubuntu/16.04/mssql-server-2017 xenial main'
     packages:
     - postgresql-10
     - postgresql-client-10
+
+env:
+  global:
+  - MSSQL_SA_PASSWORD="YourStrong!Passw0rd"
+  - ACCEPT_EULA=Y
+  - MSSQL_PID='developer'
 
 services:
   - postgresql
   - mysql
 
 before_script:
-- sudo docker run --name=mssql-server-linux-latest -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433 -d microsoft/mssql-server-linux:2017-latest
+- sudo apt-get install -y --no-install-recommends mssql-tools mssql-server dotnet-runtime-2.2 dotnet-sdk-3.1 nuget
+- sudo systemctl stop mssql-server
+- sudo /opt/mssql/bin/mssql-conf -n setup accept-eula
+- |
+  export RDMPVERSION=$(fgrep -m1 HIC.RDMP.Plugin `find . -name '*.csproj'`|sed -n 's/.*Version="\([0-9.]*\)".*/\1/p')
+- |
+  if [ ! -x $HOME/rdmp-cli/rdmp ] || ! fgrep -q $RDMPVERSION $HOME/rdmp-cli/rdmp.dll
+  then
+    rm -rf $HOME/rdmp-cli
+    wget https://github.com/HicServices/RDMP/releases/download/v${RDMPVERSION}/rdmp-cli-linux-x64.zip
+    # RDMP is still being packaged using a ZIP tool with a bug Microsoft fixed in .Net 4.6.1; excluding Chinese language support file and keyword help avoids unzip being affected by the bug: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/mitigation-ziparchiveentry-fullname-path-separator?redirectedfrom=MSDN
+    unzip -d $HOME/rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
+    chmod +x $HOME/rdmp-cli/rdmp
+  fi
+- $HOME/rdmp-cli/rdmp install localhost TEST_ -u sa -p 'YourStrong!Passw0rd'
 
 script:
 - dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
 - dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
-
-- wget https://github.com/HicServices/RDMP/releases/download/v4.1.0/rdmp-cli-linux-x64.zip
-- unzip -d rdmp-cli rdmp-cli-linux-x64.zip || true # Ignore exit code since unzip returns 1 for a warning we don't care about
-- cd ./rdmp-cli
-- chmod +x rdmp
-- ./rdmp install localhost TEST_ -u sa -p 'YourStrong!Passw0rd'
-- cd ..
 
 - dotnet test ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePluginTests/MyPipelinePluginTests.csproj
 
@@ -38,8 +60,7 @@ script:
 - nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
 - nuget pack ./ExampleUIPlugin/MyPlugin.nuspec
 
-- cd ./rdmp-cli
-- ./rdmp pack --file ../MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
-- ./rdmp pack --file ../MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
+- $HOME/rdmp-cli/rdmp pack --file MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
+- $HOME/rdmp-cli/rdmp pack --file MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
 
 
