@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/ExampleUIPlugin"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: develop
+  reviewers:
+  - tznind
+- package-ecosystem: nuget
+  directory: "/ExamplePipelinePlugin/MyPipelinePlugin"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: develop
+  reviewers:
+  - tznind
