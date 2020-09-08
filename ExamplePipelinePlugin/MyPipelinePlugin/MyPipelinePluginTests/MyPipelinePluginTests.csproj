@@ -5,10 +5,10 @@
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HIC.RDMP.Plugin.Test" Version="4.1.5" />
+    <PackageReference Include="HIC.RDMP.Plugin.Test" Version="4.1.8" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyPipelinePlugin\MyPipelinePlugin.csproj" />
