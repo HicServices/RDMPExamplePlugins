@@ -1,7 +1,6 @@
 name: .NET Core
 
-on:
-  pull_request
+on: push
 
 env:
   MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
