@@ -44,5 +44,7 @@ jobs:
       run: |
         dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
         dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+        nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
+        nuget pack ./ExampleUIPlugin/MyPlugin.nuspec
+        rdmp-cli/rdmp pack --file MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
+        rdmp-cli/rdmp pack --file MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
