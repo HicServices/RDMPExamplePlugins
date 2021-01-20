@@ -1,0 +1,52 @@
+name: .NET Core
+
+on: push
+
+env:
+  MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+  ACCEPT_EULA: "Y"
+  MSSQL_PID: "developer"
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Add MSFT code signing key
+      run: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    - name: Add MSFT package repo
+      run: sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/18.04/mssql-server-2019.list)"
+    - name: MySQL
+      run: |
+        sudo mkdir -p /var/run/mysqld
+        sudo chown mysql:mysql /var/run/mysqld
+        sudo mysqld_safe --port=3306 --skip-grant-tables &
+    - name: Install Sql Server
+      run: sudo apt-get install -y --no-install-recommends dotnet-runtime-2.2 postgresql mssql-tools mssql-server
+    - name: Configure Sql Server
+      run: sudo -E /opt/mssql/bin/mssql-conf -n setup accept-eula
+    - name: Set up RDMP
+      run: |
+        rdmpv=$(fgrep -m1 HIC.RDMP.Plugin `find . -name '*.csproj'`|head -n1|cut -d'"' -f4)
+        wget "https://github.com/HicServices/RDMP/releases/download/v${rdmpv}/rdmp-cli-linux-x64.zip"
+        unzip -d rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
+        chmod +x rdmp-cli/rdmp
+        ./rdmp-cli/rdmp install localhost TEST_ -u sa -p 'YourStrong!Passw0rd'
+    - name: Test
+      run: dotnet test ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePluginTests/MyPipelinePluginTests.csproj
+    - name: Install dependencies
+      run: |
+        nuget restore ./ExampleUIPlugin/MyPlugin.sln
+        nuget restore ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
+    - name: Build
+      run: |
+        msbuild /p:Configuration=Debug ./ExampleUIPlugin/MyPlugin.sln
+        msbuild /p:Configuration=Debug ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
+        dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
+        dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
+        nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
+        nuget pack ./ExampleUIPlugin/MyPlugin.nuspec
+        rdmp-cli/rdmp pack --file MyPipelinePlugin.0.0.4.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
+        rdmp-cli/rdmp pack --file MyPlugin.0.0.2.nupkg --catalogueconnectionstring "Server=localhost;Database=TEST_Catalogue;User Id=sa;Password=YourStrong!Passw0rd" --dataexportconnectionstring "Server=localhost;Database=TEST_DataExport;User Id=sa;Password=YourStrong!Passw0rd"
