@@ -36,8 +36,7 @@ namespace MyPipelinePluginTests
 
             DiscoveredTable table = database.CreateTable("ForbiddenNames",dt);
             
-            TableInfo tableInfo;
-            Import(table,out tableInfo,out _);
+            Import(table,out var tableInfo,out _);
 
             //Create the test dataset chunk that will be anonymised
             var dtStories = new DataTable();
@@ -90,10 +89,8 @@ namespace MyPipelinePluginTests
 	        var discoveredTable = GetCleanedServer(DatabaseType.MicrosoftSQLServer).CreateTable("ForbiddenNames", dt);
 	        try
 	        {
-                TableInfo tableInfo;
-
 		        //import the persistent TableInfo reference
-		        var importer = Import(discoveredTable,out tableInfo ,out _);
+		        var importer = Import(discoveredTable,out var tableInfo ,out _);
                 
 		        //Create the test dataset chunks that will be anonymised
 		        var dtStories1 = new DataTable();
