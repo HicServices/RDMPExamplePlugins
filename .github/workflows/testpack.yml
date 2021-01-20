@@ -33,7 +33,7 @@ jobs:
       run: sudo -E /opt/mssql/bin/mssql-conf -n setup accept-eula
     - name: Set up RDMP
       run: |
-        rdmpv=$(fgrep -m1 HIC.RDMP.Plugin `find . -name '*.csproj'`|cut -d'"' -f4)
+        rdmpv=$(fgrep -m1 HIC.RDMP.Plugin `find . -name '*.csproj'`|head -n1|cut -d'"' -f4)
         wget "https://github.com/HicServices/RDMP/releases/download/v${rdmpv}/rdmp-cli-linux-x64.zip"
         unzip -d rdmp-cli rdmp-cli-linux-x64.zip -x "Curation*" "zh-*"
         chmod +x rdmp-cli/rdmp
