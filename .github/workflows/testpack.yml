@@ -28,7 +28,7 @@ jobs:
         sudo chown mysql:mysql /var/run/mysqld
         sudo mysqld_safe --port=3306 --skip-grant-tables &
     - name: Install Sql Server
-      run: sudo apt-get install -y --no-install-recommends postgresql mssql-tools mssql-server
+      run: sudo apt-get install -y --no-install-recommends dotnet-runtime-2.2 postgresql mssql-tools mssql-server
     - name: Configure Sql Server
       run: sudo -E /opt/mssql/bin/mssql-conf -n setup accept-eula
     - name: Set up RDMP
