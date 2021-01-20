@@ -13,7 +13,7 @@ namespace MyPipelinePlugin
     public class BasicDataTableAnonymiser3: IPluginDataFlowComponent<DataTable>
     {
         [DemandsInitialization("Table containing a single column which must have a list of names to redact from columns", mandatory:true)]
-        public TableInfo NamesTable { get; set; }
+        public ITableInfo NamesTable { get; set; }
 
         [DemandsInitialization("Columns matching this regex pattern will be skipped")]
         public Regex ColumnsNotToEvaluate { get; set; }
