@@ -42,6 +42,8 @@ jobs:
         nuget restore ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
     - name: Build
       run: |
+        msbuild /p:Configuration=Debug ./ExampleUIPlugin/MyPlugin.sln
+        msbuild /p:Configuration=Debug ./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/net461/net461.csproj
         dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r win-x64
         dotnet publish "./ExamplePipelinePlugin/MyPipelinePlugin/Plugin/netcoreapp2.2/netcoreapp2.2.csproj" -r linux-x64
         nuget pack ./ExamplePipelinePlugin/MyPipelinePlugin/MyPipelinePlugin.nuspec
