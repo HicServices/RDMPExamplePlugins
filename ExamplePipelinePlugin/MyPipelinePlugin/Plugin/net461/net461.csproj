@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>70c3ebca-eca8-470f-86eb-9f506f09f8d7</ProjectGuid>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <AssemblyTitle>net461</AssemblyTitle>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <Product>net461</Product>
