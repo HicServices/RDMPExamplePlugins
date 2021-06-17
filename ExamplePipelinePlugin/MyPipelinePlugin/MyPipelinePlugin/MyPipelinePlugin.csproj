@@ -4,6 +4,6 @@
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HIC.RDMP.Plugin" Version="4.2.4" />
+    <PackageReference Include="HIC.RDMP.Plugin" Version="5.0.3" />
   </ItemGroup>
 </Project>
